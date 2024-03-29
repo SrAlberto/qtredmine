@@ -264,6 +264,7 @@ public:
      * @param parameters Additional issue status parameters
      */
     void retrieveIssueStatuses( IssueStatusesCb callback,
+                                int issueId = NULL_ID,
                                 QString parameters = "" );
 
     /**

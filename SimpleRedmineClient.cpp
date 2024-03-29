@@ -773,7 +773,7 @@ SimpleRedmineClient::retrieveIssuePriorities( EnumerationsCb callback, QString p
 }
 
 void
-SimpleRedmineClient::retrieveIssueStatuses( IssueStatusesCb callback, QString parameters )
+SimpleRedmineClient::retrieveIssueStatuses( IssueStatusesCb callback, int issueId, QString parameters )
 {
     ENTER()(parameters);
 
@@ -794,8 +794,13 @@ SimpleRedmineClient::retrieveIssueStatuses( IssueStatusesCb callback, QString pa
         // Iterate over the document
         for( const auto& j1 : json->object() )
         {
+            auto auxArray = j1;
+
+            if (issueId != NULL_ID)
+                auxArray = j1.toObject().value("allowed_statuses");
+
             // Iterate over all issueStatuss
-            for( const auto& j2 : j1.toArray() )
+            for( const auto& j2 : auxArray.toArray() )
             {
                 QJsonObject obj = j2.toObject();
 
@@ -817,7 +822,7 @@ SimpleRedmineClient::retrieveIssueStatuses( IssueStatusesCb callback, QString pa
         RETURN();
     };
 
-    RedmineClient::retrieveIssueStatuses( cb, parameters );
+    RedmineClient::retrieveIssueStatuses( cb, issueId, parameters );
 
     RETURN();
 }

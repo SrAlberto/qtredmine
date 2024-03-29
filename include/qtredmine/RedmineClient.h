@@ -346,6 +346,7 @@ public:
      * @param parameters  Additional issue status parameters
      */
     void retrieveIssueStatuses( JsonCb callback,
+                                int issueId = NULL_ID,
                                 const QString& parameters = "" );
 
     /**

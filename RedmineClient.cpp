@@ -554,11 +554,18 @@ RedmineClient::retrieveIssue( JsonCb callback, const int issueId, const QString&
 }
 
 void
-RedmineClient::retrieveIssueStatuses( JsonCb callback, const QString& parameters )
+RedmineClient::retrieveIssueStatuses( JsonCb callback, int issueId, const QString& parameters )
 {
     ENTER()(parameters);
 
-    sendRequest( "issue_statuses", callback, QNetworkAccessManager::GetOperation, parameters );
+    if (issueId == NULL_ID)
+        sendRequest( "issue_statuses", callback, QNetworkAccessManager::GetOperation, parameters );
+    else
+        sendRequest(    QString("issues/%1").arg(issueId),
+                        callback,
+                        QNetworkAccessManager::GetOperation,
+                        parameters + "include=allowed_statuses"
+                    );
 
     RETURN();
 }
