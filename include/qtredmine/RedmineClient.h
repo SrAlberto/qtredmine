@@ -343,6 +343,7 @@ public:
      * @brief Retrieve issue statuses from Redmine
      *
      * @param callback Callback function with a QJsonDocument object
+     * @param issueId Issue id to retrieve allowed status
      * @param parameters  Additional issue status parameters
      */
     void retrieveIssueStatuses( JsonCb callback,
