@@ -223,6 +223,9 @@ SimpleRedmineClient::sendIssue( Issue item, SuccessCb callback, int id, QString 
     if( item.status.id != NULL_ID )
         attr["status_id"] = item.status.id;
 
+    if( item.doneRatio != NULL_ID )
+        attr["done_ratio"] = item.doneRatio;
+
     if( item.priority.id != NULL_ID )
         attr["priority_id"] = item.priority.id;
 
@@ -296,11 +299,7 @@ SimpleRedmineClient::sendIssue( Issue item, SuccessCb callback, int id, QString 
             RETURN();
         }
 
-        // Iterate over the document
-        QJsonObject jsonIssue = json->object().find("issue").value().toObject();
-        int issueId = jsonIssue.find("id").value().toInt();
-
-        callback( true, issueId, RedmineError::NO_ERR, QStringList() );
+        callback( true, id, RedmineError::NO_ERR, QStringList() );
     };
 
     RedmineClient::sendIssue( json, cb, id, parameters );
